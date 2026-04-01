@@ -5,6 +5,13 @@ edition = "2024"
 description = "Discord RPC for Team Fortress 2"
 license = "GPL-3.0-only"
 
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
 [package.metadata.generate-rpm]
 assets = [
 	{ source = "target/release/tf2-rpc", dest = "/usr/bin/tf2-rpc", mode = "755" },
@@ -28,8 +35,9 @@ anyhow = "1"
 discord-rich-presence = "1"
 linemux = "0.3"
 sysinfo = "0.38"
-tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
 a2s = { version = "0.6", features = ["async"] }
 futures = "0.3"
+mimalloc = { version = "0.1", default-features = false }

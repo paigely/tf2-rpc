@@ -13,6 +13,9 @@ use futures::StreamExt;
 use std::{collections::HashMap, path::PathBuf};
 use tokio::task::JoinHandle;
 
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 fn main() -> Result<()> {
 	tokio::runtime::Builder::new_multi_thread()
 		.enable_all()
@@ -38,6 +41,8 @@ async fn _main() -> Result<()> {
 	});
 	let mut active_parsers: HashMap<PathBuf, JoinHandle<()>> = HashMap::new();
 	let (tx, mut rx) = tokio::sync::mpsc::channel::<Activity>(32);
+
+	tracing::info!("initialised");
 
 	// todo: i hate how nested and ugly this is, surely there's a cleaner way
 	loop {
@@ -88,6 +93,19 @@ async fn _main() -> Result<()> {
 						}
 					}
 				}
+			}
+
+			_ = tokio::signal::ctrl_c() => {
+				tracing::info!("shutting down");
+
+				let _ = presence.clear_activity();
+				let _ = presence.close();
+
+				for (_, handle) in active_parsers {
+					handle.abort();
+				}
+
+				return Ok(());
 			}
 		}
 	}
