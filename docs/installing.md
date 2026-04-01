@@ -27,6 +27,12 @@ sudo dpkg -i target/debian/*.deb
 systemctl enable --user --now tf2-rpc
 ```
 
+### arch
+```sh
+makepkg -si
+systemctl --user enable --now tf2-rpc
+```
+
 ### nixos
 ```nix
 inputs = {

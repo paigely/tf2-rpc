@@ -11,7 +11,7 @@ makedepends=('rust' 'cargo' 'git')
 source=("${pkgname}::git+${url}.git"
         "tf2-rpc.service")
 sha256sums=('SKIP'
-            'c3acf28b40e59d5c694e36715676e6ac7aa4a007033bc38f96ca044b6fe6c3b2')
+            'SKIP')
 
 build() {
   cd "$srcdir/$pkgname"

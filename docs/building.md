@@ -3,6 +3,12 @@
 git clone https://codeberg.org/paige/tf2-rpc.git && cd tf2-rpc
 ```
 
+**for arch users,** you can skip the next steps and just run:
+```sh
+makepkg -si
+systemctl --user enable --now tf2-rpc
+```
+
 ### grab dependencies
 this will differ depending on what OS/distribution you're
 using, to use direnv and nix (preferred, but optional):
