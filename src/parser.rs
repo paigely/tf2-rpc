@@ -1,4 +1,4 @@
-use crate::structs::Result;
+use crate::structs::{Result, Gamemode};
 use a2s::{A2SClient, info::Info};
 use core::fmt;
 use futures::{StreamExt, stream::BoxStream};
@@ -14,7 +14,7 @@ pub struct Parser {
 pub enum ParserEvent {
 	Connected(Info),
 	Disconnected,
-	Queuing(String),
+	Queuing(Gamemode),
 }
 
 impl fmt::Display for ParserEvent {
@@ -60,11 +60,14 @@ impl Parser {
 
 				if line.contains("[PartyClient] Entering queue") {
 					if line.ends_with("Ladder Match") {
-						return Some(ParserEvent::Queuing("Competitive".to_string()));
+						return Some(ParserEvent::Queuing(Gamemode::Competitive));
 					} else if line.ends_with("Casual Match") {
-						return Some(ParserEvent::Queuing("Casual".to_string()));
+						return Some(ParserEvent::Queuing(Gamemode::Casual));
+						// TODO: i don't know what the string for mann up is
+					} else if line.ends_with("MvM Practice") {
+						return Some(ParserEvent::Queuing(Gamemode::MannVsMachine));
 					} else {
-						return Some(ParserEvent::Queuing("some gamemode".to_string()));
+						return Some(ParserEvent::Queuing(Gamemode::Unknown));
 					}
 				} else if line.starts_with("[PartyClient] Leaving queue") {
 					return Some(ParserEvent::Disconnected);
