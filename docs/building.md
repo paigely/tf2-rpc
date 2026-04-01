@@ -1,13 +1,19 @@
-### clone the repo
+### building
+first clone the repo, [install git](https://git-scm.com/install/)
+if you haven't already
 ```sh
 git clone https://codeberg.org/paige/tf2-rpc.git && cd tf2-rpc
 ```
+alternatively you can just
+[download an archive](https://codeberg.org/paige/bot/archive/master.zip)
+of this repo
 
-**for arch users,** you can skip the next steps and just run:
-```sh
-makepkg -si
-systemctl --user enable --now tf2-rpc
-```
+> [!NOTE]
+> **for arch users,** you can skip the next steps and just run:
+> ```sh
+> makepkg -si
+> systemctl --user enable --now tf2-rpc
+> ```
 
 ### grab dependencies
 this will differ depending on what OS/distribution you're
@@ -17,12 +23,7 @@ using, to use direnv and nix (preferred, but optional):
 direnv allow
 ```
 
-for everything else, use your package manager to install
-rust and cargo, eg. for fedora:
-
-```sh
-sudo dnf install cargo rust
-```
+otherwise, [install rust](https://rust-lang.org/tools/install/)
 
 ### build
 ```sh

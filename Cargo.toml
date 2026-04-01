@@ -5,6 +5,7 @@ edition = "2024"
 description = "Discord RPC for Team Fortress 2"
 license = "GPL-3.0-only"
 
+# Optimisations
 [profile.release]
 strip = true
 opt-level = "z"
@@ -12,12 +13,14 @@ lto = true
 codegen-units = 1
 panic = "abort"
 
+# Fedora
 [package.metadata.generate-rpm]
 assets = [
 	{ source = "target/release/tf2-rpc", dest = "/usr/bin/tf2-rpc", mode = "755" },
 	{ source = "tf2-rpc.service", dest = "/etc/systemd/user/tf2-rpc.service", mode = "644" },
 ]
 
+# Debian
 [package.metadata.deb]
 maintainer = "paige <paigely@tuta.io>"
 copyright = "2026, paige"
@@ -29,6 +32,15 @@ assets = [
 	{ source = "target/release/tf2-rpc", dest = "usr/bin/tf2-rpc", mode = "755" },
 	{ source = "tf2-rpc.service", dest = "etc/systemd/user/tf2-rpc.service", mode = "644" },
 ]
+
+# Winblows
+[package.metadata.packager]
+product-name = "tf2-rpc"
+identifier = "paige.tf2-rpc"
+version = "0.1.0"
+out-dir = "./dist"
+before-packaging-command = "cargo build --release"
+binaries = [{ path = "target/release/tf2-rpc.exe", main = true }]
 
 [dependencies]
 anyhow = "1"

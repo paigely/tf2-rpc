@@ -21,6 +21,9 @@ see [docs/installing.md](./docs/installing.md)
 sudo ./scripts/install.sh
 ```
 
+### usage
+see [docs/usage.md](./docs/usage.md)
+
 ### how it works
 this relies on source's `-condebug` launch option feature which
 pipes the output of the developer console into `tf/console.log`

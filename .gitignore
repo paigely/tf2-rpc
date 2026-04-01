@@ -1,4 +1,5 @@
 /target
+/dist
 /.direnv
 result*
 .env

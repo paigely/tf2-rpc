@@ -6,10 +6,20 @@
 make sure you [built from source](./building.md) first
 (not applicable to nixos)
 
+more detailed usage instructions can be found in the
+[usage](./usage.md) section
+
 ### universal
 ```sh
 sudo ./scripts/install.sh
 ```
+
+### windows
+```sh
+cargo install cargo-packager
+cargo packager --release --formats nsis
+```
+run the generated installer in `./dist`
 
 ### fedora
 ```sh
