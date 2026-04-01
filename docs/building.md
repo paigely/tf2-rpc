@@ -1,6 +1,6 @@
 ### clone the repo
 ```sh
-git clone git@codeberg.org:paige/tf2-rpc.git && cd tf2-rpc
+git clone https://codeberg.org/paige/tf2-rpc.git && cd tf2-rpc
 ```
 
 ### grab dependencies

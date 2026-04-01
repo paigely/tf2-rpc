@@ -6,10 +6,10 @@ vesktop wasn't picking up TF2 as my presence and that annoyed me,
 also existing solutions for this sucked and/or didn't even work
 
 ### building
-see [docs/building.md](./docs/installing.md)
+see [docs/building.md](./docs/building.md)
 
 ```sh
-git clone git@codeberg.org:paige/tf2-rpc.git && cd tf2-rpc
+git clone https://codeberg.org/paige/tf2-rpc.git && cd tf2-rpc
 direnv allow
 cargo build --release
 ```
