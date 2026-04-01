@@ -22,3 +22,6 @@ sudo dnf install cargo rust
 ```sh
 cargo build --release
 ```
+
+### installing
+see [docs/installing.md](./installing.md)

@@ -3,6 +3,9 @@
 >
 > **debian/ubuntu, nixos, and windows are all untested and might not work**
 
+make sure you [built from source](./building.md) first
+(not applicable to nixos)
+
 ### universal
 ```sh
 sudo ./scripts/install.sh
