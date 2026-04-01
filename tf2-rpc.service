@@ -1,0 +1,10 @@
+[Unit]
+Description=Discord RPC for Team Fortress 2
+After=default.target
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/tf2-rpc
+
+[Install]
+WantedBy=default.target

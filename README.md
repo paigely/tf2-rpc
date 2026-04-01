@@ -5,33 +5,21 @@ Discord RPC for Team Fortress 2
 vesktop wasn't picking up TF2 as my presence and that annoyed me,
 also existing solutions for this sucked and/or didn't even work
 
-### installing
-**you NEED to put `-condebug` in tf2's launch options**
+### building
+see [docs/building.md](./docs/installing.md)
 
 ```sh
 git clone git@codeberg.org:paige/tf2-rpc.git && cd tf2-rpc
-
-# if you want to use direnv and nix, run the following
 direnv allow
-
-# otherwise, install cargo and other dependencies
-# eg. `sudo dnf install rust cargo`
-
 cargo build --release
-
-mkdir -p ~/.local/bin/
-cp target/release/tf2-rpc ~/.local/bin/tf2-rpc
 ```
 
-### usage
-**again, you NEED to put `-condebug` in tf2's launch options**
+### installing
+see [docs/installing.md](./docs/installing.md)
 
-assuming ~/.local/bin is in your PATH, just run `tf2-rpc` in
-a terminal
-
-to automate this, you can make a systemd service if you want,
-or if your distro/desktop environment has a feature for startup
-apps/login items, you can register it there (eg. KDE autostart)
+```sh
+sudo ./scripts/install.sh
+```
 
 ### how it works
 this relies on source's `-condebug` launch option feature which

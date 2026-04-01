@@ -2,6 +2,26 @@
 name = "tf2-rpc"
 version = "0.1.0"
 edition = "2024"
+description = "Discord RPC for Team Fortress 2"
+license = "GPL-3.0-only"
+
+[package.metadata.generate-rpm]
+assets = [
+	{ source = "target/release/tf2-rpc", dest = "/usr/bin/tf2-rpc", mode = "755" },
+	{ source = "tf2-rpc.service", dest = "/etc/systemd/user/tf2-rpc.service", mode = "644" },
+]
+
+[package.metadata.deb]
+maintainer = "paige <paigely@tuta.io>"
+copyright = "2026, paige"
+license-file = ["LICENSE", "0"]
+extended-description = "Discord RPC for Team Fortress 2"
+section = "utility"
+priority = "optional"
+assets = [
+	{ source = "target/release/tf2-rpc", dest = "usr/bin/tf2-rpc", mode = "755" },
+	{ source = "tf2-rpc.service", dest = "etc/systemd/user/tf2-rpc.service", mode = "644" },
+]
 
 [dependencies]
 anyhow = "1"
