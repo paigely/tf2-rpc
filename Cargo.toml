@@ -1,0 +1,15 @@
+[package]
+name = "tf2-rpc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+discord-rich-presence = "1"
+linemux = "0.3"
+sysinfo = "0.38"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+a2s = { version = "0.6", features = ["async"] }
+futures = "0.3"
