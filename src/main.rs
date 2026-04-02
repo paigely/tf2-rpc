@@ -14,9 +14,6 @@ use futures::StreamExt;
 use std::{collections::HashMap, path::PathBuf};
 use tokio::task::JoinHandle;
 
-#[global_allocator]
-static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
 fn main() -> Result<()> {
 	tokio::runtime::Builder::new_multi_thread()
 		.enable_all()
@@ -54,7 +51,7 @@ async fn _main() -> Result<()> {
 				}
 			}
 
-			_ = tokio::time::sleep(std::time::Duration::from_secs(2)) => {
+			_ = tokio::time::sleep(std::time::Duration::from_secs(10)) => {
 				for event in monitor.tick() {
 					match event {
 						MonitorEvent::Started(path) => {

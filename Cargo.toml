@@ -52,4 +52,3 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 a2s = { version = "0.6", features = ["async"] }
 futures = "0.3"
-mimalloc = { version = "0.1", default-features = false }

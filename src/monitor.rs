@@ -1,5 +1,5 @@
 use std::{collections::HashSet, path::PathBuf};
-use sysinfo::{ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System};
+use sysinfo::{ProcessRefreshKind, ProcessesToUpdate, RefreshKind, System, UpdateKind};
 
 pub struct Monitor {
 	system: System,
@@ -16,7 +16,8 @@ impl Monitor {
 	pub fn new(targets: Vec<&str>) -> Self {
 		Self {
 			system: System::new_with_specifics(
-				RefreshKind::default().with_processes(ProcessRefreshKind::everything()),
+				RefreshKind::nothing()
+					.with_processes(ProcessRefreshKind::nothing().with_exe(UpdateKind::Always)),
 			),
 			target_names: targets.iter().map(|s| s.to_lowercase()).collect(),
 			active_paths: HashSet::new(),
@@ -24,7 +25,11 @@ impl Monitor {
 	}
 
 	pub fn tick(&mut self) -> Vec<MonitorEvent> {
-		self.system.refresh_processes(ProcessesToUpdate::All, true);
+		self.system.refresh_processes_specifics(
+			ProcessesToUpdate::All,
+			true,
+			ProcessRefreshKind::nothing().with_exe(UpdateKind::Always),
+		);
 		let mut events = Vec::new();
 		let mut discovered_paths = HashSet::new();
 
