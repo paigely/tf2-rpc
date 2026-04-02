@@ -1,4 +1,4 @@
-use crate::structs::{Result, Gamemode};
+use crate::structs::{Gamemode, Result};
 use a2s::{A2SClient, info::Info};
 use core::fmt;
 use futures::{StreamExt, stream::BoxStream};
@@ -43,32 +43,39 @@ impl Parser {
 
 		let stream = muxer.filter_map(move |event| {
 			let client = Arc::clone(&client);
+
 			async move {
 				let l = event.ok()?;
 				let line = l.line();
 
-				if line.starts_with("Connected to ") {
-					let addr_str = line.split("Connected to ").nth(1)?;
-					let addr = addr_str.parse::<SocketAddr>().ok()?;
-					let info = client.info(addr).await.ok()?;
-					return Some(ParserEvent::Connected(info));
+				if let Some(addr_str) = line.strip_prefix("Connected to ") {
+					if let Ok(addr) = addr_str.parse::<SocketAddr>() {
+						if let Ok(info) = client.info(addr).await {
+							return Some(ParserEvent::Connected(info));
+						}
+					}
+					return None;
 				}
 
-				if line.starts_with("Disconnect:") {
+				if line.starts_with("Disconnect:")
+					|| line.starts_with("Sending request to abandon current match")
+					|| line.starts_with("Disconnecting from abandoned match server")
+					|| line.starts_with("Disconnecting")
+				{
 					return Some(ParserEvent::Disconnected);
 				}
 
 				if line.contains("[PartyClient] Entering queue") {
-					if line.ends_with("Ladder Match") {
-						return Some(ParserEvent::Queuing(Gamemode::Competitive));
+					let mode = if line.ends_with("Ladder Match") {
+						Gamemode::Competitive
 					} else if line.ends_with("Casual Match") {
-						return Some(ParserEvent::Queuing(Gamemode::Casual));
-						// TODO: i don't know what the string for mann up is
-					} else if line.ends_with("MvM Practice") {
-						return Some(ParserEvent::Queuing(Gamemode::MannVsMachine));
+						Gamemode::Casual
+					} else if line.ends_with("MvM Practice") || line.ends_with("MannUp") {
+						Gamemode::MannVsMachine
 					} else {
-						return Some(ParserEvent::Queuing(Gamemode::Unknown));
-					}
+						Gamemode::Unknown
+					};
+					return Some(ParserEvent::Queuing(mode));
 				} else if line.starts_with("[PartyClient] Leaving queue") {
 					return Some(ParserEvent::Disconnected);
 				}
